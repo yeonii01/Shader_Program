@@ -1,0 +1,5 @@
+﻿  Renderer.cpp
+C:\Users\sec\Desktop\강의자료\셰이더\Shader_Programming\SimpleGame\Renderer.cpp(91,21): warning C4267: '=': 'size_t'에서 'GLint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sec\Desktop\강의자료\셰이더\Shader_Programming\SimpleGame\Renderer.cpp(288,25): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\sec\Desktop\강의자료\셰이더\Shader_Programming\SimpleGame\Renderer.cpp(312,25): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+  SimpleGame.vcxproj -> C:\Users\sec\Desktop\강의자료\셰이더\Shader_Programming\x64\Debug\SimpleGame.exe
