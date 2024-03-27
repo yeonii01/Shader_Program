@@ -39,6 +39,7 @@ private:
 
 	GLuint m_TestVBO = 0;
 
+	GLuint m_ParticleCloudShader = 0;
 	GLuint m_ParticleShader = 0;
 	GLuint m_ParticleVBO = 0;
 	GLuint m_ParticleCloudVBO = 0;
