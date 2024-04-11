@@ -220,7 +220,7 @@ void Renderer::CreateParticleCloud(int numParticles)
 	float centerX, centerY;
 	centerX = 0.f;
 	centerY = 0.f;
-	float size = 0.01f;
+	float size = 0.005f;
 	int particleCount = numParticles;
 	int vertexCount = particleCount * 6;
 	int floatCount = vertexCount * (3 + 3 + 1 + 1 + 1 + 1 + 1); 
@@ -243,15 +243,15 @@ void Renderer::CreateParticleCloud(int numParticles)
 		//centerY = ((float)rand() / (float)RAND_MAX) * 2.f - 1.f;
 		centerX = 0.f;
 		centerY = 0.f;
-		vx = ((float)rand() / (float)RAND_MAX * 2.f - 1.f)* velocityScale;
-		vy = ((float)rand() / (float)RAND_MAX * 2.f - 1.f)* velocityScale;
+		vx = 0.f;// ((float)rand() / (float)RAND_MAX * 2.f - 1.f)* velocityScale;
+		vy = -0.01f;// ((float)rand() / (float)RAND_MAX * 2.f - 1.f)* velocityScale;
 		vz = ((float)rand() / (float)RAND_MAX * 2.f - 1.f)* velocityScale;
 		
 		//vx = 0.f;
 		//vy = 0.5f;
 		//vz = 0.f;
-		startTime =  8.f * ((float)rand() / (float)RAND_MAX);
-		lifeTime = 8.f * ((float)rand() / (float)RAND_MAX) + 1.f;
+		startTime =  10.f * ((float)rand() / (float)RAND_MAX);
+		lifeTime = 1.f * ((float)rand() / (float)RAND_MAX) + 1.f;
 		amp = (((float)rand() / (float)RAND_MAX) - 0.5f) *2.f;
 		period = ((float)rand() / (float)RAND_MAX);
 		value = ((float)rand() / (float)RAND_MAX);
@@ -397,6 +397,9 @@ void Renderer::DrawParticleCloud()
 
 	int uPeriod = glGetUniformLocation(shader, "u_Period");
 	glUniform1f(uPeriod, 2.0);
+
+	int uAcc = glGetUniformLocation(shader, "u_Acc");
+	glUniform2f(uAcc, cos(m_ParticleTime/10), sin(m_ParticleTime/10));
 
 	int attribPosition = glGetAttribLocation(shader, "a_Position");
 	glEnableVertexAttribArray(attribPosition);
