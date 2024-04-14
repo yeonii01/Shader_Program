@@ -20,6 +20,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
 	m_ParticleShader = CompileShaders("./Shaders/Particle.vs", "./Shaders/Particle.fs");
 	m_ParticleCloudShader = CompileShaders("./Shaders/ParticleCloud.vs", "./Shaders/ParticleCloud.fs");
+	m_FSSandboxShader = CompileShaders("./Shaders/FSSandbox.vs", "./Shaders/FSSandbox.fs");
 
 	//Create VBOs
 	CreateVertexBufferObjects();
@@ -73,6 +74,20 @@ void Renderer::CreateVertexBufferObjects()
 	glBufferData(GL_ARRAY_BUFFER, 
 		sizeof(ParticleVertices), 
 		ParticleVertices, GL_STATIC_DRAW); //업로드
+	
+	size = 0.5f;
+	float FSSandVertices[] = {
+	-size, -size, 0,
+	size, size, 0,
+	-size, size, 0,
+	size, size, 0,
+	size, -size, 0,
+	-size, -size, 0 };
+
+	glGenBuffers(1, &m_FSSandboxVBO);	//ID 생성
+	glBindBuffer(GL_ARRAY_BUFFER, m_FSSandboxVBO);	//작업대로 올리기
+	glBufferData(GL_ARRAY_BUFFER, sizeof(FSSandVertices),
+		FSSandVertices, GL_STATIC_DRAW); //업로드
 }
 
 void Renderer::AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType)
@@ -490,6 +505,34 @@ void Renderer::DrawParticleCloud()
 		stride, (GLvoid*)(sizeof(float) * 11));
 
 	glDrawArrays(GL_TRIANGLES, 0, m_ParticleCloudVertexCount);	//모드 선택
+	//이 함수 호출 즉시 GPU가 동작함
+	glDisableVertexAttribArray(attribPosition);
+
+	glDisable(GL_BLEND);
+}
+
+void Renderer::DrawFSSandbox()
+{
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//Program select
+	GLuint shader = m_FSSandboxShader;
+	glUseProgram(shader);
+	GLuint stride = sizeof(float) * 3;
+
+	int uTime = glGetUniformLocation(shader, "u_Time");
+	glUniform1f(uTime, m_FSSandboxTime);
+	m_FSSandboxTime += 0.016;
+
+	int attribPosition = glGetAttribLocation(shader, "a_Position");
+	glEnableVertexAttribArray(attribPosition);
+	glBindBuffer(GL_ARRAY_BUFFER, m_FSSandboxVBO);
+	glVertexAttribPointer(attribPosition,
+		3, GL_FLOAT,
+		GL_FALSE,
+		stride, 0);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);	//모드 선택
 	//이 함수 호출 즉시 GPU가 동작함
 	glDisableVertexAttribArray(attribPosition);
 
