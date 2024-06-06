@@ -16,6 +16,8 @@ but WITHOUT ANY WARRANTY.
 #include "Renderer.h"
 
 Renderer *g_Renderer = NULL;
+int g_ScreenSizeX = 1024;
+int g_ScreenSizeY = 1024;
 
 void RenderScene(void)
 {
@@ -34,15 +36,7 @@ void RenderScene(void)
 
 void RenderSceneTimer(int value)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
-
-	// Renderer Test
-	//g_Renderer->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
-	//g_Renderer->DrawTest();
-	//g_Renderer->DrawParticle();
-	//g_Renderer->DrawParticleCloud();
-	g_Renderer->DrawFSSandbox();
+	g_Renderer->DrawTotal();
 
 	glutSwapBuffers();
 	glutTimerFunc(16, RenderSceneTimer, 1);
@@ -74,7 +68,7 @@ int main(int argc, char **argv)
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(0, 0);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(g_ScreenSizeX, g_ScreenSizeY);
 	glutCreateWindow("Game Software Engineering KPU");
 
 	glewInit();
@@ -88,7 +82,7 @@ int main(int argc, char **argv)
 	}
 
 	// Initialize Renderer
-	g_Renderer = new Renderer(500, 500);
+	g_Renderer = new Renderer(g_ScreenSizeX, g_ScreenSizeY);
 	if (!g_Renderer->IsInitialized())
 	{
 		std::cout << "Renderer could not be initialized.. \n";
@@ -100,6 +94,9 @@ int main(int argc, char **argv)
 	glutMouseFunc(MouseInput);
 	glutSpecialFunc(SpecialKeyInput);
 	glutTimerFunc(16, RenderSceneTimer, 1);
+
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearDepth(1.f);
 
 	glutMainLoop();
 

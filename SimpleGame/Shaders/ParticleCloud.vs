@@ -8,9 +8,10 @@ in float a_Amp;
 in float a_Period;
 in float a_Value;
 in vec4 a_Color;
+in vec2 a_TexPos;
 
 out vec4 v_Color;
-
+out vec2 v_TexPos;
 uniform float u_Time = 0;
 uniform	float u_Period = 2.0;
 uniform vec2 u_Acc = vec2(0, 0);
@@ -185,6 +186,7 @@ void HeartShapeCycle()
 	gl_Position = newPosition;
 }
 
+
 void main()
 {
 	//Line();
@@ -195,4 +197,6 @@ void main()
 	//CircleShape();
 	//CircleShapeCycle();
 	HeartShapeCycle();
+
+	v_TexPos = a_TexPos;
 }

@@ -59,7 +59,7 @@ void SinGraph()
 	float period = 3;
 	float amp = 0.2;
 	float speed = 10;
-	//float sinValue = amp * sin(newTexPos.x * period - u_Time)- amp*sin(- u_Time);
+
 	float sinValue =v_Color.r*amp *sin(newTexPos.x * period - u_Time * speed);
 	float width = 0.5;
 	width = width*(1-v_Color.r);
@@ -69,7 +69,7 @@ void SinGraph()
 	}
 	else
 	{
-		FragColor = vec4(0);
+		discard;
 	}
 }
 

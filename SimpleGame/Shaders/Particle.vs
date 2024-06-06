@@ -5,11 +5,12 @@ in vec3 a_Position;
 uniform float u_Time = 0;
 uniform	float u_Period = 2.0;
 
-const vec3 c_StartPos = vec3(-1, 0, 0);
+const vec3 c_StartPos = vec3(-0.5, 0, 0);
 const vec3 c_Velocity = vec3(2.0, 0, 0);
 const vec3 c_ParaVelocity = vec3(2.0, 2.0, 0);
 const vec2 c_2DGravity = vec2(0.0, -4.9);
 const float c_PI = 3.141592;
+
 
 void Basic()
 {
@@ -55,10 +56,22 @@ void Parabola()
 	gl_Position = newPosition;
 }
 
+void Triangle()
+{
+	float newTimeX = abs(fract((u_Time) / u_Period) - 0.5);
+	float newTimeY = 0.5-abs(max(fract(u_Time/u_Period)-0.5,0) * 2 -0.5);
+	vec4 newPosition;
+	newPosition.x = (c_StartPos.x + a_Position.x) + 2 * newTimeX;
+	newPosition.y = (c_StartPos.y + a_Position.y) + 2 * newTimeY;
+	newPosition.w = 1;
+	gl_Position = newPosition;
+}
+
 void main()
 {
 	//Line();
 	//Circle();
 	//Parabola();
 	//Basic();
+	Triangle();
 }
